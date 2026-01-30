@@ -1,29 +1,42 @@
 class MinStack {
 public:
-    vector<vector<int>> stack;
+    long long stack[30010];
+    int TOP = 0;
+    long long min_value;
 
     MinStack() {
         
     }
     
     void push(int val) {
-        int min = getMin();
-        if (stack.empty() || min > val) min = val;
-        stack.push_back({val, min});
+        if (TOP == 0) {
+            stack[TOP++] = 0;
+            min_value = val;
+        }
+        else {
+            long long diff = (long long)val - min_value;
+            stack[TOP++] = diff;
+            if (diff < 0)
+                min_value = val;
+        }
     }
     
     void pop() {
-        stack.pop_back();
+        long long diff = stack[TOP-1];
+        TOP--;
+        if (diff < 0) min_value = (long long)min_value - diff;
     }
     
     int top() {
-        if (stack.empty()) return -1;
-        return stack.back()[0];
+        long long diff = stack[TOP - 1];
+        if (diff >= 0)
+            return min_value + diff;
+        else
+            return min_value;
     }
     
     int getMin() {
-        if (stack.empty()) return -1;
-        return stack.back()[1];
+        return (int)min_value;
     }
 };
 
