@@ -1,22 +1,17 @@
 class Solution {
 public:
     vector<int> plusOne(vector<int>& digits) {
-        int last = digits.size() - 1;
-        bool carry;
-        do {
-            if (digits[last] + 1 == 10) {
-                if (last == 0) {
-                    digits.push_back(0);
-                    digits[last] = 1;
-                }
-                else {
-                    digits[last] = 0;
-                }
-            }
-            else digits[last] += 1;
+        bool carry = true;
+        for (int last = digits.size() - 1; last >= 0; last--) {
+            // pruning
+            if (!carry) break;
+            // carry
+            digits[last] = (digits[last] + 1 == 10) ? 0 : digits[last] + 1;
+            // propagate carry
             carry = (digits[last] == 0) ? 1 : 0;
-            last--;
-        } while(carry);
+        }
+        // add 1 one more digits
+        if (carry) digits.insert(digits.begin(), 1);
         return digits;
     }
 };
