@@ -14,6 +14,7 @@ public:
                 return mid;
             }
         }
+        // left is the smallest index in the sorted array.
         return left;
     }
 };
