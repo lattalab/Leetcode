@@ -1,33 +1,36 @@
 class MyQueue {
-    stack<int> in, out;
 public:
+    stack<int> st_in;
+    stack<int> st_out;
     MyQueue() {
         
     }
     
     void push(int x) {
-        in.push(x);
+        st_in.push(x);
     }
     
     int pop() {
-        int res = this->peek();
-        out.pop();
-        return res;
+        if (st_out.empty()) {
+            while (!st_in.empty()) {
+                int val = st_in.top();
+                st_in.pop();
+                st_out.push(val);
+            }
+        }
+        int result = st_out.top();
+        st_out.pop();
+        return result;
     }
     
     int peek() {
-        if (out.empty()){
-            // fetch data from in stack
-            while(!in.empty()){
-                out.push(in.top());
-                in.pop();
-            }
-        }
-        return out.top();
+        int result = this->pop();
+        st_out.push(result);
+        return result;
     }
     
     bool empty() {
-        return in.empty() && out.empty();
+        return st_in.empty() && st_out.empty();
     }
 };
 
