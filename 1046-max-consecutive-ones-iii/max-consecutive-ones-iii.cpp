@@ -7,23 +7,19 @@ public:
         int right = 0;
         int zeros = 0;
         while (right < nums.size()) {
-            if (nums[right] == 1) {
-                ans = max(ans, right-left+1);
-                right++;
+            if (nums[right] == 0) {
+                zeros++;
             }
-            else {  // nums[right] == 0;
-                if (zeros < k) {
-                    ans = max(ans, right-left+1);
-                    right++;
-                    zeros++;
+
+            while (zeros > k) {
+                if (nums[left] == 0) {
+                    zeros--;
                 }
-                else {
-                    if (nums[left] == 0) {
-                        zeros--;
-                    }
-                    left++;
-                }
+                left++;
             }
+
+            ans = max(ans, right - left + 1);
+            right++;
         }
         return ans;
     }
