@@ -4,16 +4,12 @@ public:
         // remove backward space
         int idx = s.length() - 1;
         while (idx > 0 && s[idx] == ' ') idx--;
-        s.resize(idx);
 
+        // traverse from the end
         int ans = 0;
-        for (int i=0; i<=idx; i++) {
-            if (s[i] == ' ') {
-                ans = 0;
-            }
-            else {
-                ans++;
-            }
+        while (idx >= 0 && s[idx] != ' ') {
+            ans++;
+            idx--;
         }
         return ans;
     }
