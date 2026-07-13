@@ -1,0 +1,47 @@
+class Solution {
+public:
+    void gameOfLife(vector<vector<int>>& board) {
+        int m = board.size();
+        int n = board[0].size();
+        // live to dead = 2
+        // dead to live = 3
+        int dx[] = {-1, 0, 1, -1, 1, -1, 0, 1};
+        int dy[] = {-1, -1, -1, 0, 0, 1, 1, 1};
+        for (int i=0; i<m; i++) {
+            for (int j=0; j<n; j++) {
+                // iterate through iteration
+                int count = 0;
+                for (int k=0; k<8; k++) {
+                    int x = i + dx[k];
+                    int y = j + dy[k];
+                    if (x >=0 && x < m && y >= 0 && y < n) {
+                        count += (board[x][y] == 1 || board[x][y] == 2);
+                    }
+                }
+                // judge cell state
+                if (board[i][j] == 1) {
+                    if (count < 2 || count > 3) {
+                        board[i][j] = 2; // -> live to dead
+                    }
+                }
+                else {  // dead cell
+                    if (count == 3) {
+                        board[i][j] = 3; // dead to live
+                    }
+                }
+            }
+        }
+
+        // second pass: revert to final state
+        for (int i=0; i<m; i++) {
+            for (int j=0; j<n; j++) {
+                if (board[i][j] == 2) {
+                    board[i][j] = 0;
+                }
+                else if (board[i][j] == 3) {
+                    board[i][j] = 1;
+                }
+            }
+        }
+    }
+};
