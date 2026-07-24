@@ -17,11 +17,11 @@ public:
         ListNode *slow = dummy;
         ListNode *fast = dummy;
         // cause add extra dummy head, need to add 1 gap
-        for (int i=0; i<n+1; i++) {
+        for (int i=0; i<n; i++) {
             fast = fast->next;
         }
 
-        while (fast) {
+        while (fast->next) {
             fast = fast->next;
             slow = slow->next;
         }
