@@ -15,20 +15,27 @@ class Solution(object):
         INT_MAX = 1e9
         minDist = [INT_MAX] * (n+1)
 
+        # optimized: if the element is in the queue, don't append twice
+        InQueue = [False] * (n+1)
+
         # queue optimized bellmen ford
         q = deque()
         q.append(k)
         minDist[k] = 0
+        InQueue[k] = True
 
         while q:    # !q.empty()
             src = q.popleft()
+            InQueue[src] = False
 
             # relax all outgoing edges
             for t, v in graph[src]:
                 # update the neighbor
                 if minDist[src] + v < minDist[t]:
                     minDist[t] = minDist[src] + v
-                    q.append(t)
+                    if not InQueue[t]:
+                        InQueue[t] = True
+                        q.append(t)
 
         ans = 0
         for i in range(1, n+1):
