@@ -16,17 +16,17 @@ public:
         
         if (root == NULL) return ;
         
-        maximum = max(maximum, root->val);
         // preorder
+        // Check whether the current node is good
         if (root->val >= maximum) {
             ans++;
+            maximum = root->val;
         }
         dfs(root->left, maximum);
         dfs(root->right, maximum);
     }
     int goodNodes(TreeNode* root) {
-        int max = root->val;
-        dfs(root, max);
+        dfs(root, root->val);
         return ans;
     }
 };
