@@ -13,6 +13,7 @@ public:
         int nextHead = candidates;
         int nextTail = n - 1 - candidates;
         for (int i=0; i<k; i++) {
+            // note that <= due to tie worker
             if ( right.empty() || (!left.empty() && !right.empty() && left.top() <= right.top()) ) {
                 ans += left.top();
                 left.pop();
