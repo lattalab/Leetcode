@@ -1,26 +1,27 @@
 class Solution {
 public:
-    vector<vector<int>> result;
-    vector<int> path;
-    void backtracking (vector<int>& nums, vector<bool>& used) {
-        if (path.size() == nums.size()) {
-            result.push_back(path);
-            return;
+    vector<vector<int>> ans;
+    vector<int> cur;
+    void backtracking(vector<int> &nums, vector<int> &visited) {
+        
+        if (cur.size() == nums.size()) {
+            ans.push_back(cur);
+            return ;
         }
-        for (int i = 0; i < nums.size(); i++) {
-            if (used[i] == true) continue; 
-            used[i] = true;
-            path.push_back(nums[i]);
-            backtracking(nums, used);
-            path.pop_back();
-            used[i] = false;
+
+        for (int i=0; i<nums.size(); i++) {
+            if (!visited[i]) {
+                cur.push_back(nums[i]);
+                visited[i] = true;
+                backtracking(nums, visited);
+                cur.pop_back();
+                visited[i] = false;
+            }
         }
     }
     vector<vector<int>> permute(vector<int>& nums) {
-        result.clear();
-        path.clear();
-        vector<bool> used(nums.size(), false);
-        backtracking(nums, used);
-        return result;
+        vector<int> visited(nums.size(), false);
+        backtracking(nums, visited);
+        return ans;
     }
 };
