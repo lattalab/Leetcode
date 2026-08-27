@@ -1,24 +1,18 @@
 class Solution {
 public:
-    vector<vector<int>> result;
-    vector<int> path;
-    void backtracking(vector<int>& nums, int startIndex) {
-        result.push_back(path); 
+    vector<vector<int>> ans;
+    vector<int> cur;
+    void backtracking(vector<int> &nums, int startIndex) {
+        ans.push_back(cur);
 
-        if (startIndex >= nums.size()) { 
-            return;
-        }
-
-        for (int i = startIndex; i < nums.size(); i++) {
-            path.push_back(nums[i]);
-            backtracking(nums, i + 1);
-            path.pop_back();
+        for (int i=startIndex; i<nums.size(); i++) {
+            cur.push_back(nums[i]);
+            backtracking(nums, i+1);
+            cur.pop_back();
         }
     }
     vector<vector<int>> subsets(vector<int>& nums) {
-        path.clear();
-        result.clear();
         backtracking(nums, 0);
-        return result;
+        return ans;
     }
 };
