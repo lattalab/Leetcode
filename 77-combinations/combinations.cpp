@@ -1,24 +1,21 @@
 class Solution {
 public:
-    vector<vector<int>> result;
-    vector<int> path;
-    void backtracking (int n, int k, int startIndex) {
-        if (path.size() == k) {
-            result.push_back(path);
-            return;
+    vector<vector<int>> ans;
+    void backtracking(vector<int> &result, int cur, int n, int k) {
+        if (result.size() == k) {
+            ans.push_back(result);
+            return ;
         }
-
-        for (int i=startIndex; i<=n; i++) {
-            path.push_back(i);
-            backtracking(n, k, i+1);
-            path.pop_back();
+        
+        for (int i=cur; i<=n; i++) {
+            result.push_back(i);
+            backtracking(result, i+1, n, k);
+            result.pop_back();
         }
     }
     vector<vector<int>> combine(int n, int k) {
-        // clear the containers
-        path.clear();
-        result.clear();
-        backtracking(n, k, 1);
-        return result;
+        vector<int> temp;
+        backtracking(temp, 1, n, k);
+        return ans;
     }
 };
