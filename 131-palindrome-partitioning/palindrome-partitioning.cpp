@@ -1,37 +1,33 @@
 class Solution {
 public:
-    vector<vector<string>> result;
-    vector<string> path;
-    bool palindrome (string &s, int start, int end) {
-        while (start >= 0 && end < s.size() && start <= end) {
-            if (s[start] != s[end]) return false;
-            start++;
-            end--;
+    vector<vector<string>> ans;
+    vector<string> cur;
+    bool check(string &s, int left, int right) {
+        while (left < right) {
+            if (s[left] != s[right])
+                return false;
+
+            left++; right--;
         }
         return true;
     }
-    void backtracking (string &s, int startIndex) {
-        if (startIndex >= s.size()) {
-            result.push_back(path);
+    void backtracking(string &s, int startIndex) {
+        if (startIndex == s.size()) {
+            ans.push_back(cur);
             return ;
         }
+
         for (int i=startIndex; i<s.size(); i++) {
-            // check if valid palindrome
-            if (palindrome(s, startIndex, i)) {
+            if (check(s, startIndex, i)) {
                 string str = s.substr(startIndex, i - startIndex + 1);
-                path.push_back(str);
-            } else {
-                continue;
+                cur.push_back(str);
+                backtracking(s, i+1);
+                cur.pop_back();
             }
-            
-            backtracking(s, i+1);
-            path.pop_back();
         }
     }
     vector<vector<string>> partition(string s) {
-        path.clear();
-        result.clear();
         backtracking(s, 0);
-        return result;
+        return ans;
     }
 };
