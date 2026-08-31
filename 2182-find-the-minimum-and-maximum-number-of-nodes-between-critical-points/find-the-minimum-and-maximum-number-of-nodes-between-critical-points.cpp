@@ -11,29 +11,37 @@
 class Solution {
 public:
     vector<int> nodesBetweenCriticalPoints(ListNode* head) {
+        // fewer than three node, no critical point
         if (!head->next || !head->next->next) return {-1, -1};
 
+        // to examine the critical point,
+        // we need current node, previous node, next node.
         ListNode *prev = head, *curr = head->next, *next=head->next->next;
         
-        int first=-1, p=-1, n=-1;
-        int idx = 1;
-        int min_dist = INT_MAX, max_dist;
+        int firstCritical=-1, prevCritical=-1, nextCritical=-1;
+        int idx = 1;    // keep track of current node
+        int min_dist = INT_MAX;
+
         while (next != NULL) {
             // find critical point
             if ((curr->val > prev->val && curr->val > next->val) || (curr->val < prev->val && curr->val < next->val)) {
-                p = n;
-                n = idx;
+                
+                // keep track of neighbor node
+                prevCritical = nextCritical; 
+                nextCritical = idx;
 
                 // find the first critical
-                if (first == -1) {
-                    first = idx;
+                if (firstCritical == -1) {
+                    firstCritical = idx;
                 }
                 // try to find minimum distance
-                if (p != -1) {
-                    min_dist = min(min_dist, n-p);
+                if (prevCritical != -1) {
+                    min_dist = min(min_dist, nextCritical - prevCritical );
                 }
+
             }
 
+            // increment
             idx++;
             prev = prev->next;
             curr = curr->next;
@@ -41,8 +49,11 @@ public:
         }
 
         // test if fewer than two critical point
-        if (p == -1) min_dist = -1;
-        max_dist = (p == -1) ? -1 : n - first;
+        if (prevCritical == -1)
+            return {-1, -1};
+        
+        // the maximum is the lastest and first one critical point's distance
+        int max_dist = nextCritical - firstCritical;
         return {min_dist, max_dist};
     }
 };
